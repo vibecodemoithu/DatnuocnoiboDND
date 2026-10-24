@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Đặt nước nội bộ</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 <style>
 :root{--card:#fbf0d8;--tx:#3a2314;--mu:#8a6b4f;--ac:#b4501a;--acx:#fff3da;--bd:#d6b988;--chalk:'Patrick Hand','Segoe Print','Bradley Hand',cursive}
@@ -47,19 +47,30 @@ table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;border-bottom:1p
 .bulb{animation:tw2 2.4s ease-in-out infinite alternate}@keyframes tw2{from{opacity:.5}to{opacity:1}}
 .steam{animation:st 2.6s ease-in-out infinite}@keyframes st{0%{opacity:0;transform:translateY(2px)}50%{opacity:.85}100%{opacity:0;transform:translateY(-9px)}}
 @media (prefers-reduced-motion:reduce){.bulb,.steam{animation:none}}
-</style></head><body><div class="shop">
-<div class="stage"><h1>Cà Phê T9 DND</h1><div id="scene"></div><p class="hint">Bấm vào quầy pha chế hoặc quầy bar để chọn món · mỗi ly đặt hôm nay sẽ hiện trên bàn</p></div>
-<div class="shopbody">
-<main>
-<div class="row"><input id="who" placeholder="Tên của bạn (để ghi đơn)"></div>
-<div class="tabs"><button data-t="menu" class="on">Chọn món</button><button data-t="today">Hôm nay</button><button data-t="hist">Lịch sử</button><button data-t="adm">Quản lý</button></div>
-<section id="menu"></section><section id="today" class="hide"></section><section id="hist" class="hide"></section><section id="adm" class="hide"></section>
-<p class="mu" id="msg"></p>
-</main>
+body{padding:0;margin:0;height:100dvh;overflow:hidden;background:#0e1118}
+#scene{position:fixed;inset:0;display:flex;overflow:auto;scrollbar-width:none;background:radial-gradient(circle at 8% 30%,rgba(255,70,50,.3),transparent 25%),radial-gradient(circle at 95% 15%,rgba(255,255,255,.18),transparent 22%),linear-gradient(#0e1118,#151b27)}
+#scene::-webkit-scrollbar{display:none}
+#scene svg{flex:none;margin:auto;height:100dvh;width:auto;max-width:none;display:block}
+.top{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top,0px)) 14px 14px;background:linear-gradient(rgba(10,12,18,.88),rgba(10,12,18,0));pointer-events:none}
+.top>*{pointer-events:auto}.top h1{margin:0;font:400 26px/1.2 var(--chalk);color:#ffe7ae;text-shadow:0 0 14px rgba(255,200,100,.55)}.top input{width:180px;background:rgba(255,249,234,.94)}
+#msg{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:11;background:#2a1608;color:#ffd98a;padding:6px 12px;border-radius:8px;font-size:13px;max-width:92vw;text-align:center;margin:0}#msg:empty{display:none}
+#pan{display:none;position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:9;background:rgba(20,14,8,.8);color:#ffe7ae;padding:4px 12px;border-radius:14px;font-size:13px;margin:0}
+.dock{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:6px;padding:7px;background:rgba(35,22,12,.88);border:2px solid #6a4020;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.55)}
+.dock button{display:flex;flex-direction:column;align-items:center;min-width:62px;padding:5px 8px;font-size:12px;font-weight:600;line-height:1.3;background:linear-gradient(#8f5e2e,#6d4420);color:#fbe9c8;border:1px solid #432810;box-shadow:0 2px 0 #3b2310}
+.dock button i{font-style:normal;font-size:21px}.dock button.on{background:linear-gradient(#f0b155,#d08a30);color:#2b1708;box-shadow:0 0 14px rgba(255,200,100,.7),0 2px 0 #8a5a1c}
+#modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:12px;background:rgba(8,6,4,.62);backdrop-filter:blur(2px)}#modal.open{display:flex}
+.sheet{width:min(760px,100%);max-height:88dvh;overflow:auto;padding:12px 14px 18px;background:radial-gradient(ellipse at 50% 0,#f6e3b8,#e6cf9f 70%);border:8px solid #6a4020;border-radius:8px;box-shadow:0 0 0 3px #3b2310,0 24px 60px rgba(0,0,0,.6)}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:18px}.sh button{padding:4px 12px}
+.chalk{position:fixed;right:12px;top:64px;width:300px;max-height:calc(100dvh - 170px);overflow:auto;display:none;z-index:9;align-self:auto}.chalk.show{display:block}
+@media (max-width:700px){.top h1{font-size:20px}.top input{width:130px}.chalk{left:10px;right:10px;width:auto;top:60px}#modal{align-items:flex-end;padding:0}.sheet{width:100%;max-height:90dvh;border-width:6px 0 0;border-radius:14px 14px 0 0;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}.dock{gap:4px;padding:5px}.dock button{min-width:58px;padding:5px 4px}}
+</style></head><body>
+<div id="scene"></div>
+<header class="top"><h1>🧋 Đặt nước nội bộ</h1><input id="who" placeholder="Tên của bạn"></header>
+<p id="msg"></p><p id="pan">↔ Vuốt ngang để xem cả quán</p>
 <aside id="rank" class="chalk"></aside>
-</div>
-<div class="floor"><span style="left:6%">🍂</span><span style="left:31%">🍂</span><span style="left:58%">🪴</span><span style="left:83%">🍂</span></div>
-</div>
+<nav class="dock"><button data-t="menu" class="on"><i>☕</i>Chọn món</button><button data-t="today"><i>📋</i>Hôm nay</button><button data-t="hist"><i>📅</i>Lịch sử</button><button id="rk"><i>🏆</i>Xếp hạng</button><button data-t="adm"><i>⚙️</i>Quản lý</button></nav>
+<div id="modal"><div class="sheet" id="sheet"><div class="sh"><b id="mt">☕ Chọn món</b><button id="mx" aria-label="Đóng">✕</button></div>
+<section id="menu"></section><section id="today" class="hide"></section><section id="hist" class="hide"></section><section id="adm" class="hide"></section></div></div>
 <script>
 const API='https://script.google.com/macros/s/AKfycbw6xU35z_pPwGCGmWrpbO_dYR7nzq3hVt5QhZdBfNnnq3UvANCHKzmqQ9CiadMdSr8KPw/exec'; // link dạng https://script.google.com/macros/s/.../exec
 const $=s=>document.querySelector(s);
@@ -76,7 +87,11 @@ async function api(b){const r=await fetch(API,{method:'POST',headers:{'Content-T
 const w=async fn=>{try{await fn();await load()}catch(e){alert('Lỗi: '+(e.message||e))}};
 async function load(){try{const j=await (await fetch(API)).json();ING=j.ingredients.sort((a,b)=>a.name.localeCompare(b.name));DR=j.drinks.sort((a,b)=>a.name.localeCompare(b.name));OR=j.orders.sort((a,b)=>b.ts-a.ts);$('#msg').textContent=''}catch(e){$('#msg').textContent='Không kết nối được Google Sheet. Kiểm tra lại link API trong file.'}
  if(!(tab==='adm'&&document.activeElement&&/INPUT|SELECT/.test(document.activeElement.tagName)))render()}
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));['menu','today','hist','adm'].forEach(t=>$('#'+t).classList.toggle('hide',t!==tab));render()});
+const TT={menu:'☕ Chọn món',today:'📋 Đơn hôm nay',hist:'📅 Lịch sử',adm:'⚙️ Quản lý'},closeM=()=>$('#modal').classList.remove('open');
+function openTab(t){tab=t;document.querySelectorAll('.dock [data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t===t));['menu','today','hist','adm'].forEach(k=>$('#'+k).classList.toggle('hide',k!==t));$('#mt').textContent=TT[t];$('#modal').classList.add('open');render()}
+document.querySelectorAll('.dock [data-t]').forEach(b=>b.onclick=()=>openTab(b.dataset.t));
+$('#mx').onclick=closeM;$('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+$('#rk').onclick=()=>$('#rank').classList.toggle('show');if(innerWidth>=1200)$('#rank').classList.add('show');
 const ing=id=>ING.find(i=>i.id===id);
 function cost(d){let t=0;const lines=(d.items||[]).map(it=>{const g=ing(it.ing),p=g?g.price*it.qty:0;t+=p;return{name:g?g.name:'(đã xoá)',unit:g?g.unit:'',qty:it.qty,price:g?g.price:0,sum:p}});return{t,lines}}
 function render(){if(tab==='menu')rMenu();if(tab==='today')rToday();if(tab==='hist')rHist();rRank();setSpecial();if(tab==='adm')rAdm()}
@@ -94,7 +109,7 @@ const wl=(pl,u,z,i)=>{const[a,b]=pl==='L'?P(0,u,z):P(u,0,z);return `<g transform
 const wt=(pl,u,z,t,sz,f)=>wl(pl,u,z,`<text font-size="${sz}" fill="${f}" font-family="'Patrick Hand','Segoe Print',cursive">${esc(t)}</text>`);
 const WD=['#b88149','#94622f','#7a4d22'],DK=['#7d4c25','#5f3a1c','#492c14'],MT=['#9a9aa2','#5c5c63','#44444a'],WH=['#fffaf0','#e8dcc6','#cfc1a6'],GL=['#bfe3ee','#8fbfcf','#78a8b9'],ST=['#e2e5ea','#a9aeb7','#7d828a'],TOP=['#c8935a','#9a6a35','#7a4d22'],BK=['#3a3a40','#26262b','#1b1b1f'];
 const cut=(t,n)=>t.length>n?t.slice(0,n-1)+'…':t;
-const goMenu=()=>{document.querySelector('[data-t=menu]').click();$('#menu').scrollIntoView({behavior:'smooth'})};
+const goMenu=()=>openTab('menu');
 const mug=(x,y,z,lq)=>{const[a,b]=P(x,y,z+.33),r=.16*1.2247*SC.S;return fr(x,y,z,.3,.3,.03,WH)+fr(x,y,z+.03,.16,.15,.3,WH)+`<path d="M${f1(a+r)},${f1(b+5)}c9,-3 10,10 0,10" stroke="${WH[2]}" stroke-width="2.6" fill="none"/>`+(lq?ell(x,y,z+.32,.13,lq):'')};
 function lights(){let o='',k=0;const z0=SC.H-.25;for(let i=0;i<8;i++)for(const w of['L','R']){const a=i*1.25,b=a+1.25,g=(u,z)=>w==='L'?P(0,u,z):P(u,0,z),A=g(a,z0),B=g(b,z0),C=g((a+b)/2,z0-.9),m=[.25*A[0]+.5*C[0]+.25*B[0],.25*A[1]+.5*C[1]+.25*B[1]];
  o+=`<path d="M${A[0]},${A[1]} Q${C[0]},${C[1]} ${B[0]},${B[1]}" stroke="#3b2310" stroke-width="1.5" fill="none"/><g class="bulb" style="animation-delay:${(k++%5)*.4}s"><circle cx="${m[0]}" cy="${m[1]}" r="10" fill="rgba(255,210,110,.35)"/><circle cx="${m[0]}" cy="${m[1]}" r="3.2" fill="#fff4c2"/></g>`}return o}
@@ -107,7 +122,7 @@ function scene(){
  const top=Object.entries(by).sort((a,b)=>b[1]-a[1])[0];
  const n=new Date(),ws=new Date(n.getFullYear(),n.getMonth(),n.getDate()-((n.getDay()+6)%7)),wk=ws.getFullYear()+'-'+String(ws.getMonth()+1).padStart(2,'0')+'-'+String(ws.getDate()).padStart(2,'0'),wc={};
  OR.filter(o=>o.date>=wk).forEach(o=>wc[o.drink]=(wc[o.drink]||0)+1);const t3=Object.entries(wc).sort((a,b)=>b[1]-a[1]).slice(0,3),zS=1.92;
- let o=`<svg viewBox="0 0 700 590" role="img" aria-label="Quán cà phê"><defs><radialGradient id="gl" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset="1" stop-color="#fff2c8" stop-opacity="0"/></radialGradient></defs>`;
+ let o=`<svg viewBox="30 -50 640 660" role="img" aria-label="Quán cà phê"><defs><radialGradient id="gl" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset="1" stop-color="#fff2c8" stop-opacity="0"/></radialGradient></defs>`;
  o+=pg([P(-.35,N,0),P(0,N,0),P(0,N,H),P(-.35,N,H)],'#35416a')+pg([P(N,-.35,0),P(N,0,0),P(N,0,H),P(N,-.35,H)],'#27304f');
  o+=pg([P(0,0,0),P(0,N,0),P(0,N,H),P(0,0,H)],'#f0ddb0')+pg([P(0,0,0),P(N,0,0),P(N,0,H),P(0,0,H)],'#e6d09e');
  o+=pg([P(0,0,0),P(0,N,.25),P(0,N,.25),P(0,0,.25)],'#c9a46a')+pg([P(0,0,0),P(N,0,0),P(N,0,.25),P(0,0,.25)],'#b98f55');
@@ -151,16 +166,16 @@ function scene(){
   const h=[...r.drink].reduce((a,c)=>a+c.charCodeAt(0),0)%5,[sx,sy]=P(x,y,z+.36),nm=String(r.name).trim().split(/\s+/).pop();
   o+=`<g><title>${esc(r.name)} · ${esc(r.drink)}${r.note?' ('+esc(r.note)+')':''}</title>`+mug(x,y,z,LQ[h])+`<path class="steam" d="M${f1(sx)},${f1(sy-2)} q-4,-6 0,-11 q4,-5 0,-10" stroke="#fff" stroke-opacity=".7" stroke-width="1.6" fill="none"/><text x="${f1(sx)}" y="${f1(sy-26)}" text-anchor="middle" font-size="10" fill="#fff" stroke="#2a1608" stroke-width="2.6" paint-order="stroke" font-family="system-ui,sans-serif">${esc(cut(nm,9))}</text></g>`});
  if(td.length>SL.length){const[a,b]=P(5,5.4,2);o+=`<text x="${f1(a)}" y="${f1(b)}" text-anchor="middle" font-size="12" fill="#ffd98a" stroke="#2a1608" stroke-width="2.6" paint-order="stroke">+${td.length-SL.length} ly nữa</text>`}
- o+='</svg>';$('#scene').innerHTML=o}
+ o+='</svg>';const sc=$('#scene'),sl=sc.scrollLeft;sc.innerHTML=o;if(!window._c){window._c=1;sc.scrollLeft=(sc.scrollWidth-sc.clientWidth)/2;if(sc.scrollWidth>sc.clientWidth+20){const h=$('#pan');h.style.display='block';setTimeout(()=>h.style.display='none',5000)}}else sc.scrollLeft=sl}
 function setSpecial(){scene()}
 function rMenu(){
  let h=DR.length?'<div class="grid">'+DR.map(d=>`<div class="card drink" data-id="${esc(d.id)}"><b>${esc(d.name)}</b><span class="price">${money(cost(d).t)}</span></div>`).join('')+'</div>':'<p class="mu">Chưa có món nào. Người quản lý vào tab “Quản lý” để thêm.</p>';
  const d=DR.find(x=>x.id===sel);
  if(d){const c=cost(d);h+=`<div class="card"><h2>${esc(d.name)}</h2><div class="wrap"><table><tr><th>Nguyên liệu</th><th class="r">Số lượng</th><th class="r">Đơn giá</th><th class="r">Thành tiền</th></tr>`+c.lines.map(l=>`<tr><td>${esc(l.name)}</td><td class="r">${l.qty} ${esc(l.unit)}</td><td class="r">${unitP(l.price)}/${esc(l.unit)}</td><td class="r">${money(l.sum)}</td></tr>`).join('')+`<tr class="tot"><td colspan="3">Tổng tiền</td><td class="r">${money(c.t)}</td></tr></table></div><div class="row" style="margin-top:10px"><input id="note" placeholder="Ghi chú (ít đá, 50% đường…)"><button class="pri fix" id="order">Đặt món này</button></div></div>`}
  $('#menu').innerHTML=h;
- document.querySelectorAll('.drink').forEach(e=>e.onclick=()=>{sel=e.dataset.id;rMenu();window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})});
+ document.querySelectorAll('.drink').forEach(e=>e.onclick=()=>{sel=e.dataset.id;rMenu();$('#sheet').scrollTo({top:1e5,behavior:'smooth'})});
  const ob=$('#order');if(ob)ob.onclick=()=>{const name=$('#who').value.trim();if(!name){alert('Nhập tên của bạn ở phía trên trước nhé.');return}
-  ob.disabled=true;w(async()=>{await api({action:'addOrder',data:{date:today(),name,drinkId:d.id,drink:d.name,total:cost(d).t,note:$('#note').value.trim()}});sel=null;alert('Đã đặt: '+d.name)}).finally(()=>ob.disabled=false)}
+  ob.disabled=true;w(async()=>{await api({action:'addOrder',data:{date:today(),name,drinkId:d.id,drink:d.name,total:cost(d).t,note:$('#note').value.trim()}});sel=null;closeM();alert('Đã đặt: '+d.name+' ☕ ly của bạn đang lên quầy!')}).finally(()=>ob.disabled=false)}
 }
 function ordersTable(list,canDel){
  if(!list.length)return '<p class="mu">Chưa có đơn nào.</p>';
@@ -190,7 +205,7 @@ function rAdm(){
  document.querySelectorAll('[data-ie]').forEach(b=>b.onclick=()=>{const i=ing(b.dataset.ie);editIng=i.id;$('#in').value=i.name;$('#iu').value=i.unit;$('#ik').value=i.pkgSize||1;$('#ip').value=i.pkgPrice||i.price;pv();alert('Sửa xong bấm Lưu')});
  document.querySelectorAll('[data-id2]').forEach(b=>b.onclick=()=>twice(b,()=>w(()=>api({action:'del',sheet:'Ingredients',id:b.dataset.id2}))));
  $('#ds').onclick=()=>w(async()=>{const n=$('#dn').value.trim(),items=[...$('#dl').children].map(r=>({ing:r.querySelector('select').value,qty:parseFloat(r.querySelector('input').value)})).filter(x=>x.ing&&x.qty>0);if(!n||!items.length){alert('Cần tên món và ít nhất 1 nguyên liệu');return}await api({action:'save',sheet:'Drinks',data:{id:editId||rid(),name:n,items}});editId=null});
- document.querySelectorAll('[data-de]').forEach(b=>b.onclick=()=>{const d=DR.find(x=>x.id===b.dataset.de);editId=d.id;$('#dn').value=d.name;$('#dl').innerHTML='';d.items.forEach(addLine);window.scrollTo({top:$('#dn').offsetTop-20,behavior:'smooth'})});
+ document.querySelectorAll('[data-de]').forEach(b=>b.onclick=()=>{const d=DR.find(x=>x.id===b.dataset.de);editId=d.id;$('#dn').value=d.name;$('#dl').innerHTML='';d.items.forEach(addLine);$('#dn').scrollIntoView({behavior:'smooth',block:'center'})});
  document.querySelectorAll('[data-dd]').forEach(b=>b.onclick=()=>twice(b,()=>w(()=>api({action:'del',sheet:'Drinks',id:b.dataset.dd}))));
 }
 function rRank(){
